@@ -13,10 +13,7 @@ The database looks something like this (The actions column will have buttons app
 
 Here is what the completed page looks for the logged out and logged in user
 
-![Screenshot 2022-03-02 at 10 11 28 PM](https://user-images.githubusercontent.com/10229595/156407182-1273780e-fae0-48d3-94d4-84157f7de0a7.png)
-
-
-![Screenshot 2022-03-02 at 10 11 39 PM](https://user-images.githubusercontent.com/10229595/156407216-46476c81-1205-4271-b618-29ad7042ae9a.png)
+![Screenshot 2022-03-02 at 10 11 39 PM](https://imgur.com/JfbzFsM.png)
 
 
 
