@@ -1,132 +1,131 @@
-var title = ["Book1", "Book2", "Book3", "Book4", "Book5", "Book6"];
-var author = ["Author1", "Author2", "Author3", "Author4", "Author5", "Author6"];
-var lender = ["UserC", "UserC", "UserD", "UserA", "UserA", "UserB"];
-var borrower = ["UserB", "-", "UserC", "-", "-", "UserA"];
-var action = "-";
-var user = ["UserA", "UserB", "UserC", "UserD"];
-var loginflag = 0;
-var username;
-var message = document.getElementById("logged-in-user-name");
-message.innerHTML = "No user logged in";
+// Write your code here!
+let bookName = [ 'Book1', 'Book2', 'Book3', 'Book4', 'Book5', 'Book6' ];
+let author = [ 'Author1', 'Author2', 'Author3', 'Author4', 'Author5', 'Author6' ];
+let user = [ 'UserA', 'UserB', 'UserC', 'UserD' ];
+let lender = [ 'UserC', 'UserC', 'UserD', 'UserA', 'UserA', 'UserB' ];
+let borrower = [ 'UserB', '-', 'UserC', '-', '-', 'UserA' ];
+let action = '-';
 
-function addDataRow(i) {
-    var tableRef = document.getElementById("info-table");
-    var newRow = tableRef.insertRow(-1);
-    for (var j = 0; j < 6; j++) {
-        var newCell = newRow.insertCell(j);
-        if (j === 0)
-            newCell.innerHTML = i + 1;
-        if (j === 1)
-            newCell.innerHTML = title[i];
-        if (j === 2)
-            newCell.innerHTML = author[i];
-        if (j === 3)
-            newCell.innerHTML = lender[i];
-        if (j === 4)
-            newCell.innerHTML = borrower[i];
-        if (j === 5)
-            newCell.innerHTML = action;
+let buildTable = document.getElementById("info-table");
+
+const tableData = () => {
+    for (var i = 0; i < 6; i++) {
+        var row = buildTable.insertRow(-1);
+        row.innerHTML = `<tr>
+            <td>${i+1}</td>
+            <td>${bookName[i]}</td>
+            <td>${author[i]}</td>
+            <td>${lender[i]}</td>
+            <td>${borrower[i]}</td>
+            <td>${action}</td>
+        </tr>`;
     }
 }
-for (var i = 0; i < 6; i++) {
-    addDataRow(i);
-}
 
+tableData();
 
+let userlogin = 0;
+let userId;
+let userHeader = document.getElementById('logged-in-user-name'); 
+let loginInput = document.getElementById('logged-user'); 
+userHeader.innerHTML = "No user logged in";
 
-function changeLoggedInUser() {
-    if (username === document.getElementById("logged-user").value && user.indexOf(username) !== -1) {
-        alert("User has already logged in!!!");
-    } else {
-        username = document.getElementById("logged-user").value;
-        var message = document.getElementById("logged-in-user-name");
-        if (user.indexOf(username) === -1) {
-            message.innerHTML = "No user logged in";
-            if (loginflag === 1) {
-                var tableRef = document.getElementById("info-table");
-                var rowCount = tableRef.rows.length;
-                tableRef.deleteRow(rowCount - 1);
-                loginflag = 0;
+const changeLoggedInUser = () => {
+    if (userId === loginInput.value && user.indexOf(userId) !== -1) {
+        alert("Already logged in!");
+    } 
+    else {
+        userId = loginInput.value;
+        if (user.indexOf(userId) === -1) {
+            userHeader.innerHTML = "No user logged in";
+
+            if (userlogin === 1){
+                let count = buildTable.rows.length;
+                buildTable.deleteRow(count - 1);
+                userlogin = 0;
             }
-            var tableRef = document.getElementById("info-table");
-            for (var i = 1; i < tableRef.rows.length; i++) {
-                tableRef.rows[i].cells[5].innerHTML = "-";
+            
+            for (var i = 1; i < buildTable.rows.length; i++) {
+                buildTable.rows[i].cells[5].innerHTML = "-";
             }
-        } else {
-            message.innerHTML = ` <b>Logged in user: ${username} </b>`;
-            if (loginflag === 0) {
-                addBookRow(username);
-                loginflag = 1;
+        } 
+        else{
+            userHeader.innerHTML = ` <span>Logged in user: ${userId} </span>`;
+
+            if (userlogin === 0) {
+                addBookTableRow(userId);
+                userlogin = 1;
             }
-            if (loginflag === 1) {
-                var tableRef = document.getElementById("info-table");
-                var rowCount = tableRef.rows.length;
-                tableRef.deleteRow(rowCount - 1);
-                addBookRow(username);
+
+            if (userlogin === 1) {
+                let count = buildTable.rows.length;
+                buildTable.deleteRow(count - 1);
+                addBookTableRow(userId);
             }
-            var tableRef = document.getElementById("info-table");
-            for (var i = 1; i < tableRef.rows.length - 1; i++) {
-                if (tableRef.rows[i].cells[4].textContent === username && tableRef.rows[i].cells[5].textContent === "-") {
-                    tableRef.rows[i].cells[5].innerHTML = `<button id="return" onclick="returnClick(${i})">Return</button>`;
-                } else if (tableRef.rows[i].cells[4].textContent === "-" && tableRef.rows[i].cells[3].textContent !== username) {
-                    tableRef.rows[i].cells[5].innerHTML = `<button id="borrow" onclick="borrowClick(${i})">Borrow</button>`;
-                } else {
-                    tableRef.rows[i].cells[5].innerHTML = "-";
+            
+            for (var i = 1; i < buildTable.rows.length - 1; i++){
+                if(buildTable.rows[i].cells[4].textContent === userId && buildTable.rows[i].cells[5].textContent === "-"){
+                    buildTable.rows[i].cells[5].innerHTML = `<button id="return" onclick="returnBtn(${i})">Return</button>`;
+                } 
+                else if(buildTable.rows[i].cells[4].textContent === "-" && buildTable.rows[i].cells[3].textContent !== userId){
+                    buildTable.rows[i].cells[5].innerHTML = `<button id="borrow" onclick="borrowBtn(${i})">Borrow</button>`;
+                } 
+                else{
+                    buildTable.rows[i].cells[5].innerHTML = "-";
                 }
             }
         }
     }
 }
 
-function addNewBook() {
-    console.log("daskhcahd");
-    var titleName = document.getElementById("titleId").value;
-
-    var authorName = document.getElementById("authorId").value;
-    if (titleName.length > 0 && authorName.length > 0 && title.indexOf(titleName) === -1) {
-        title.push(titleName);
-        var tableRef = document.getElementById("info-table");
-        var rowCount = tableRef.rows.length;
-        tableRef.deleteRow(rowCount - 1);
-        tableRef.insertRow(-1).innerHTML = `<tr><td>${tableRef.rows.length-1}</td>
-            <td>${titleName}</td>
-    <td>${authorName}</td>
-    <td>${username}</td>
-    <td>-</td>
-    <td>-</td>
+const newBook = () => {
+    let bookTitle = document.getElementById("book-name").value;
+    let authorName = document.getElementById("author-name").value;
+    if (bookTitle.length > 0 && authorName.length > 0 && bookName.indexOf(bookTitle) === -1) {
+        bookName.push(bookTitle);
+        let count = buildTable.rows.length;
+        buildTable.deleteRow(count - 1);
+        buildTable.insertRow(-1).innerHTML = `<tr>
+            <td>${buildTable.rows.length-1}</td>
+            <td>${bookTitle}</td>
+            <td>${authorName}</td>
+            <td>${userId}</td>
+            <td>-</td>
+            <td>-</td>
         </tr>`;
-        addBookRow(username);
-    } else if (title.indexOf(titleName) !== -1) {
-        alert("Book already available!!!");
+        addBookTableRow(userId);
+    } else if (bookName.indexOf(bookTitle) !== -1) {
+        alert("Book already exists!");
     } else {
-        if (titleName.length === 0 && authorName.length === 0)
-
-            alert("Enter the author and book name!!!");
-        else if (authorName.length === 0)
-            alert("Enter the author name of the book!!!");
-        else
-            alert("Enter the title of Book!!!");
+        if (bookTitle.length === 0 && authorName.length === 0){
+            alert("Enter The Required field!");
+        }
+        else if (authorName.length === 0){
+            alert("Enter The Author Name!");
+        }
+        else if (bookTitle.length === 0){
+            alert("Enter The Book Title!");
+        }
     }
 }
 
-function addBookRow(username) {
-    var tableRef = document.getElementById("info-table");
-    tableRef.insertRow(-1).innerHTML =
-        `<tr><td>${tableRef.rows.length-1}</td>
-        <td><input type="text" id="titleId"  placeholder="title"></td>
-<td><input type="text" id="authorId"  placeholder="author"></td>
-<td>${username}</td>
-<td>-</td>
-<td><button id="addbook" onclick="addNewBook()">Add book</button></td> 
-</tr>`;
+const addBookTableRow = (userId) =>  {
+    buildTable.insertRow(-1).innerHTML =`<tr>
+        <td>${buildTable.rows.length-1}</td>
+        <td><input type="text" id="book-name" placeholder="Title" ></td>
+        <td><input type="text" id="author-name" placeholder="Author" ></td>
+        <td id="lender-name" >${userId}</td>
+        <td>-</td>
+        <td><button onclick="newBook()" >Add Book</button></td> 
+    </tr>`;
 }
 
-function returnClick(i) {
-    document.getElementById("info-table").rows[i].cells[5].innerHTML = `<button id="borrow" onclick="borrowClick(${i})">Borrow</button>`;
-    document.getElementById("info-table").rows[i].cells[4].innerHTML = "-";
+const returnBtn = (click) => {
+    buildTable.rows[click].cells[5].innerHTML = `<button id="borrow" onclick="borrowBtn(${click})" >Borrow</button>`;
+    buildTable.rows[click].cells[4].innerHTML = "-";
 }
 
-function borrowClick(i) {
-    document.getElementById("info-table").rows[i].cells[5].innerHTML = `<button id="return" onclick="returnClick(${i})">Return</button>`;
-    document.getElementById("info-table").rows[i].cells[4].innerHTML = username;
+const borrowBtn = (click) => {
+    buildTable.rows[click].cells[5].innerHTML = `<button id="return" onclick="returnBtn(${click})" >Return</button>`;
+    buildTable.rows[click].cells[4].innerHTML = userId;
 }

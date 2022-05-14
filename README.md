@@ -1,3 +1,5 @@
+# Ankit Raj - 1906534
+
 We have a simple BookClub database that is maintaining a list of books, who has lent the book, and who has borrowed the book. We can also add new book entries, borrow and return books.
 
 The database looks something like this (The actions column will have buttons appearing conditionally based on the state of the application).
@@ -13,8 +15,10 @@ The database looks something like this (The actions column will have buttons app
 
 Here is what the completed page looks for the logged out and logged in user
 
-![Screenshot 2022-03-02 at 10 11 39 PM](https://imgur.com/JfbzFsM.png)
+![Screenshot 2022-03-02 at 10 11 28 PM](https://imgur.com/JfbzFsM.png)
 
+
+![Screenshot 2022-03-02 at 10 11 39 PM](https://imgur.com/yvJPDga.png)
 
 
 For purposes of this exercise, we have provided the basic HTML and CSS styles for you. You only need to write the Javascript code.
